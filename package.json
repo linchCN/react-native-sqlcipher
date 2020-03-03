@@ -1,6 +1,6 @@
 {
   "name": "react-native-sqlcipher",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "SQLCipher plugin for React Native",
   "main": "sqlite.js",
   "scripts": {
@@ -22,11 +22,19 @@
   ],
   "author": "linch <369955292@qq.com>",
   "license": "MIT",
-  "homepage" : "https://github.com/linchenhuicn/react-native-sqlcipher/",
+  "homepage": "https://github.com/linchenhuicn/react-native-sqlcipher/",
   "bugs": {
     "url": "https://github.com/linchenhuicn/react-native-sqlcipher/issues"
   },
   "peerDependencies": {
     "react-native": "^0.41.2"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/linchenhuicn/react-native-sqlcipher.git"
   }
 }
