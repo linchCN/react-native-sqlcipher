@@ -1,6 +1,6 @@
 {
   "name": "react-native-sqlcipher",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "SQLCipher plugin for React Native",
   "main": "sqlite.js",
   "scripts": {
