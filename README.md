@@ -1,7 +1,8 @@
 # react-native-sqlcipher
 SQLCipher plugin for React Native. Based on the react-native-sqlite-storage project.
 
-Version 0.0.1 is forked from [andpor/react-native-sqlite-storage](https://github.com/andpor/react-native-sqlite-storage/) #4.1.0
+Version 0.0.1 is forked from [andpor/react-native-sqlite-storage](https://github.com/andpor/react-native-sqlite-storage/) #4.1.0, Sqlcipher#4.3.0
+Version 0.0.4 is forked from [andpor/react-native-sqlite-storage](https://github.com/andpor/react-native-sqlite-storage/) #5.0.0, Sqlcipher#4.3.0
 
 ## Getting started
 

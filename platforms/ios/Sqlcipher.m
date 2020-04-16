@@ -124,6 +124,15 @@ RCT_EXPORT_MODULE();
         [appDBPaths setObject: libs forKey:@"nosync"];
       }
     }
+
+    NSString *groupName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"AppGroupName"];
+    NSURL *groupURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:groupName];
+    if (groupURL != NULL)
+    {
+       NSString* shared = groupURL.path;
+       RCTLog(@"Detected Shared path: %@", shared);
+       [appDBPaths setObject: shared forKey:@"shared"];
+    }
   }
   return self;
 }
@@ -169,7 +178,7 @@ RCT_EXPORT_METHOD(open: (NSDictionary *) options success:(RCTResponseSenderBlock
         RCTLog(@"Reusing existing database connection for db name %@", dbfilename);
         pluginResult = [SQLiteResult resultWithStatus:SQLiteStatus_OK messageAsString:@"Database opened"];
       } else {
-        
+
         dbname = [self handleDatabaseFile:options isForced:false];
         const char *name = [dbname UTF8String];
         sqlite3 *db;
@@ -190,6 +199,8 @@ RCT_EXPORT_METHOD(open: (NSDictionary *) options success:(RCTResponseSenderBlock
             }
           }
 #endif
+          sqlite3_exec(db, "PRAGMA journal_mode=WAL;", NULL, NULL, NULL);
+
           // Attempt to read the SQLite master table [to support SQLCipher version]:
           if(sqlite3_exec(db, (const char*)"SELECT count(*) FROM sqlite_master;", NULL, NULL, NULL) == SQLITE_OK) {
             NSValue *dbPointer = [NSValue valueWithPointer:db];
@@ -243,7 +254,7 @@ RCT_EXPORT_METHOD(open: (NSDictionary *) options success:(RCTResponseSenderBlock
       assetFilePath = [documentsDirUrl.path stringByAppendingPathComponent:assetFilePath];
       RCTLog(@"Built path to pre-populated DB asset from app sandbox documents directory: %@",assetFilePath);
     }
-    
+
   }
 
   if (options[@"readOnly"] && assetFilePath != NULL){
@@ -267,7 +278,7 @@ RCT_EXPORT_METHOD(open: (NSDictionary *) options success:(RCTResponseSenderBlock
   }
 
   RCTLog(@"Opening db in mode %@, full path: %@", (sqlOpenFlags == SQLITE_OPEN_READONLY) ? @"READ ONLY" : @"READ_WRITE",dbname);
-  
+
   return dbname;
 }
 
@@ -281,7 +292,7 @@ RCT_EXPORT_METHOD(copyDBFile: (NSDictionary *) options success:(RCTResponseSende
     RCTLog(@"Error building path for pre-populated DB asset %@",ex.reason);
     success(@[ex.reason]);
   }
-  
+
 }
 
 -(void)createFromResource:(NSString *)prepopulatedDb withDbname:(NSString *)dbname {
