@@ -250,11 +250,17 @@ public class SqlcipherPlugin extends ReactContextBaseJavaModule {
                 deleteDatabase(dbname, cbc);
                 break;
             case copyDBFile :
-                dbname = SqlcipherPluginConverter.getString(args,"path","");
+                dbname = SqlcipherPluginConverter.getString(args,"name","");
                 String assetFilename = SqlcipherPluginConverter.getString(args,"assetFilename",null);
                 int openFlags = SQLiteDatabase.OPEN_READWRITE | SQLiteDatabase.CREATE_IF_NECESSARY;
-                openDbFile(dbname,assetFilename,openFlags,true);
-
+                try {
+                    openDbFile(dbname,assetFilename,openFlags,true);
+                } catch(Exception ex) {
+                    FLog.e(TAG, "couldn't copy files", ex);
+                    cbc.error("couldn't copy files");
+                }
+                if (cbc != null)
+                    cbc.success();
                 break;
 
             case executeSqlBatch:
